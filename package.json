@@ -1,0 +1,15 @@
+{
+  "name": "smart-wallet-intent-demo",
+  "version": "1.0.0",
+  "description": "Demo Telegram bot for Smart Wallet Intent Decoder",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "telegraf": "^4.14.2",
+    "node-fetch": "^3.3.2"
+  },
+  "type": "module"
+}
