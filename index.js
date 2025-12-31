@@ -1,17 +1,27 @@
-import 'dotenv/config';
-import { simulateEvents } from './services/eventListener.js';
-import { sendTelegramMessage } from './services/telegramSender.js';
-import { decodeIntent } from './services/intentDecoder.js';
 
-const demoWallets = [
-  { address: '0xABC123...', name: 'Wallet A' },
-  { address: '0xDEF456...', name: 'Wallet B' }
-];
+import { Telegraf } from "telegraf";
 
-console.log('🚀 Smart Wallet Intent Decoder Demo Bot Started');
+const BOT_TOKEN = process.env.BOT_TOKEN;
 
-setInterval(async () => {
-  const event = simulateEvents(demoWallets);
-  const intent = decodeIntent(event);
-  await sendTelegramMessage(intent);
-}, 10000);
+if (!BOT_TOKEN) {
+  console.error("❌ BOT_TOKEN is missing");
+  process.exit(1);
+}
+
+const bot = new Telegraf(BOT_TOKEN);
+
+bot.start((ctx) => {
+  ctx.reply("Hello World 👋");
+});
+
+bot.on("text", (ctx) => {
+  ctx.reply("Bot is alive ✅");
+});
+
+bot.launch()
+  .then(() => console.log("🤖 Bot started successfully"))
+  .catch(err => console.error("Bot failed:", err));
+
+// Graceful stop
+process.once("SIGINT", () => bot.stop("SIGINT"));
+process.once("SIGTERM", () => bot.stop("SIGTERM"));
